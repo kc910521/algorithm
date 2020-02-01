@@ -18,92 +18,142 @@ public class EzLeetCode {
 //        System.out.println(isAnagram("我at", "t我a"));
 //        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
 //        System.out.println(myAtoi("20000000000000000000"));
-        System.out.println(strStr("hello", "k"));
+        System.out.println(KMP("hello", "lo"));
     }
 
-    /**
-     * 别问问就kmp
-     * https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy/5/strings/38/
-     *
-     * @param haystack
-     * @param needle
-     * @return
-     */
-    public static int strStr(String haystack, String needle) {
-        int[] N = getN(needle);
-        int res = 0;
-        int sourceLength = haystack.length();
-        int patternLength = needle.length();
-        for (int i = 0; i <= (sourceLength - patternLength); ) {
-            res++;
-            String str = haystack.substring(i, i + patternLength);//要比较的字符串
-            int count = getNext(needle, str, N);
-//            p("移动"+count+"步");
-            if (count == 0) {
-                return i;
+
+    public static int[] lps(String pattern) {
+        int[] lps = new int[pattern.length()];
+        int idx = 0;
+        for (int i = 1; i < pattern.length(); ) {
+            if (pattern.charAt(i) == pattern.charAt(idx)) {
+                lps[i] = idx + 1;
+                idx++;
+                i++;
+            } else {
+                if (idx == 0) {
+                    lps[i] = 0;
+                    i++;
+                } else {
+                    idx = lps[idx - 1];
+                }
             }
-            i = i + count;
+        }
+        return lps;
+    }
+
+    public static int KMP(String source, String pattern) {
+        int[] lps = lps(pattern);
+        char[] ptChars = pattern.toCharArray();
+        int sIdx = 0;
+        int pIdx = 0;
+        while (sIdx < source.length() && pIdx < ptChars.length) {
+            if (source.charAt(sIdx) == ptChars[pIdx]) {
+                sIdx++;
+                pIdx++;
+            } else {
+                if (pIdx == 0) {
+                    // 失败的匹配，主串指针向右移动
+                    sIdx++;
+                } else {
+                    pIdx = lps[pIdx - 1];
+
+                }
+            }
+        }
+        if (pIdx == ptChars.length) {
+            // 成功,注意不是ptChars.length - 1
+            return sIdx - ptChars.length;
         }
         return -1;
-
     }
 
-    /**
-     * 得到下一次要移动的次数
-     *
-     * @param pattern
-     * @param str
-     * @param N
-     * @return 0, 字符串匹配；
-     */
-    private static int getNext(String pattern, String str, int[] N) {
-        int n = pattern.length();
-        char v1[] = str.toCharArray();
-        char v2[] = pattern.toCharArray();
-        int x = 0;
-        while (n-- != 0) {
-            if (v1[x] != v2[x]) {
-                if (x == 0) {
-                    return 1;//如果第一个不相同，移动1步
-                }
-                return x - N[x - 1];//x:第一次出现不同的索引的位置，即j
-            }
-            x++;
-        }
-        return 0;
-    }
-
-    private static int[] getN(String pattern) {
-        char[] pat = pattern.toCharArray();
-        int j = pattern.length() - 1;
-        int[] N = new int[j + 1];
-        for (int i = j; i >= 2; i--) {
-            N[i - 1] = getK(i, pat);
-        }
-        return N;
-    }
-
-    private static int getK(int j, char[] pat) {
-        int x = j - 2;
-        int y = 1;
-        while (x >= 0 && compare(pat, 0, x, y, j - 1)) {
-            x--;
-            y++;
-        }
-        return x + 1;
-    }
-
-    private static boolean compare(char[] pat, int b1, int e1, int b2, int e2) {
-        int n = e1 - b1 + 1;
-        while (n-- != 0) {
-            if (pat[b1] != pat[b2]) {
-                return true;
-            }
-            b1++;
-            b2++;
-        }
-        return false;
-    }
+//
+//
+//
+//    /**
+//     * 别问问就kmp
+//     * https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy/5/strings/38/
+//     *
+//     * @param haystack
+//     * @param needle
+//     * @return
+//     */
+//    public static int strStr(String haystack, String needle) {
+//        int[] N = getN(needle);
+//        int res = 0;
+//        int sourceLength = haystack.length();
+//        int patternLength = needle.length();
+//        for (int i = 0; i <= (sourceLength - patternLength); ) {
+//            res++;
+//            String str = haystack.substring(i, i + patternLength);//要比较的字符串
+//            int count = getNext(needle, str, N);
+////            p("移动"+count+"步");
+//            if (count == 0) {
+//                return i;
+//            }
+//            i = i + count;
+//        }
+//        return -1;
+//
+//    }
+//
+//    /**
+//     * 得到下一次要移动的次数
+//     *
+//     * @param pattern
+//     * @param str
+//     * @param N
+//     * @return 0, 字符串匹配；
+//     */
+//    private static int getNext(String pattern, String str, int[] N) {
+//        int n = pattern.length();
+//        char v1[] = str.toCharArray();
+//        char v2[] = pattern.toCharArray();
+//        int x = 0;
+//        while (n-- != 0) {
+//            if (v1[x] != v2[x]) {
+//                if (x == 0) {
+//                    return 1;//如果第一个不相同，移动1步
+//                }
+//                return x - N[x - 1];//x:第一次出现不同的索引的位置，即j
+//            }
+//            x++;
+//        }
+//        return 0;
+//    }
+//
+//    private static int[] getN(String pattern) {
+//        char[] pat = pattern.toCharArray();
+//        int j = pattern.length() - 1;
+//        int[] N = new int[j + 1];
+//        for (int i = j; i >= 2; i--) {
+//            N[i - 1] = getK(i, pat);
+//        }
+//        return N;
+//    }
+//
+//    private static int getK(int j, char[] pat) {
+//        int x = j - 2;
+//        int y = 1;
+//        while (x >= 0 && compare(pat, 0, x, y, j - 1)) {
+//            x--;
+//            y++;
+//        }
+//        return x + 1;
+//    }
+//
+//    private static boolean compare(char[] pat, int b1, int e1, int b2, int e2) {
+//        int n = e1 - b1 + 1;
+//        while (n-- != 0) {
+//            if (pat[b1] != pat[b2]) {
+//                return true;
+//            }
+//            b1++;
+//            b2++;
+//        }
+//        return false;
+//    }
     /**
      * https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy/5/strings/37/
      *
