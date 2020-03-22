@@ -18,8 +18,45 @@ public class EzLeetCode {
 //        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
 //        System.out.println(myAtoi("20000000000000000000"));
 //        System.out.println(KMP("hello", "lo"));
-        System.out.println(countAndSay(5));
+//        System.out.println(countAndSay(5));
+        String[] a = new String[]{"flower", "flow", "flight"};
+        System.out.println(longestCommonPrefix(a));
     }
+
+    public static String longestCommonPrefix(final String[] strs) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (strs.length < 1) {
+            return "";
+        }
+        if (strs.length == 1) {
+            return strs[0];
+        }
+        char[] firstChars = strs[0].toCharArray();
+        for (int i = 1; i < strs.length; i++) {
+            char[] chars = strs[i].toCharArray();
+            for (int j = 0; j < chars.length; j++) {
+                if (firstChars.length < j + 1 || firstChars[j] == '-') {
+                    continue;
+                } else {
+                    if (firstChars[j] == chars[j]) {
+
+                    } else {
+                        firstChars[j] = '-';
+                    }
+                }
+            }
+        }
+        for (char c : firstChars) {
+            if (c == '-') {
+                break;
+            } else {
+                stringBuilder.append(c);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+
 
     /**
      * https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy/5/strings/39/
