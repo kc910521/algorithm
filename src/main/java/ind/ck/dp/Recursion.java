@@ -69,15 +69,16 @@ public class Recursion {
      * @return
      */
     public static Node reverseList(Node head) {//4
-        // 在这里思考设置一个中断条件：
+        // （1）在这里思考设置一个中断条件：
         // 当节点的下一元素为空，就是终端时机
         // 因为需要把这个节点返回给掉用者，所以中断时返回当前节点
+        // 正常情况head并不会==null
         if (head == null || head.next == null) {
             return head;
         }
         // 从上往下，目的就是拿到最深处节点，同时此处之后回归
         Node cNode = reverseList(head.next);
-        // 在这里思考每一步都需要做什么：
+        // （2）在这里思考每一步都需要做什么或关系公式：
         // 翻转即是把每两个节点之间的关系转换一下
         // 例如A->B->C 在C返回后第一次真正的循环内部可以拿到方法入参head（B）和cNode（C）
         // 需要在这一轮实现 A->B<-C ，然后返回C，而且永远返回C，因为C会是翻转后的真正头节点
@@ -97,6 +98,51 @@ public class Recursion {
         // 所以B->next会在 @98109S（ind/ck/dp/Recursion.java:88） 处被设置为A，请反复理解此处
         return cNode;
     }
+
+    /**
+     * 7(列)*3(行)的网格
+     *
+     * @return
+     */
+    public int runMethod(int rowPos, int colPos) {
+        if (rowPos == 3 && colPos == 7) {
+            return 0;
+        }
+        if (rowPos == 3) {
+            return 7 - colPos;
+        }
+        if (colPos == 7) {
+            return 3 - rowPos;
+        }
+
+
+        return runMethod(rowPos + 1, colPos) + runMethod(rowPos, colPos + 1);
+    }
+
+    public static int uniquePaths(int m, int n) {
+        if (m <= 0 || n <= 0) {
+            return 0;
+        }
+
+        int[][] dp = new int[m][n]; //
+        // 初始化
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = 1;
+        }
+        // 推导出 dp[m-1][n-1]
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+
+
 
 
     public static void main(String[] args) {

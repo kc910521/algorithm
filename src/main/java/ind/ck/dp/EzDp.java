@@ -121,9 +121,47 @@ public class EzDp {
     }
 
 
+    /**
+     * ind.ck.dp.Recursion#jumpMethod(int)
+     * 一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法
+     *
+     * @return
+     */
+    public static int dpJumpMethod(int stairs) {
+        int[] dt = new int[stairs + 1];
+        dt[0] = 0;
+        dt[1] = 1;
+        dt[2] = 2;
+        for (int i = 3; i < stairs + 1; i++) {
+            dt[i] = dt[i - 1] + dt[i - 2];
+        }
+        return dt[stairs];
+    }
+
+    public static int jumpMethod(int stairs) {
+        if (stairs <= 0) {
+            return 0;
+        }
+        if (stairs == 1) {
+            return 1;
+        }
+        if (stairs == 2) {
+            return 2;
+        }
+        return jumpMethod(stairs - 1) + jumpMethod(stairs - 2);
+
+    }
+
+
+
     public static void main(String[] args) {
 //        System.out.println(cutting(10));
-        System.out.println(isAliasWon(10, true));
+//        System.out.println(isAliasWon(10, true));
+
+//        System.out.println(dpJumpMethod(10));
+
+        // 1;1;1  2;1 1;2
+        System.out.println(jumpMethod(3));
     }
 
 

@@ -23,12 +23,33 @@ public class Main {
         return rv;
     }
 
+    public static String substringBefore(String str, String separator) {
+
+        return "";
+    }
+
     public static void main(String[] args) {
 //        System.out.println(Long.toHexString((FNV_64_INIT << 1) + (FNV_64_INIT << 4) + (FNV_64_INIT << 5) + (FNV_64_INIT << 7) + (FNV_64_INIT << 8) + (FNV_64_INIT << 40) ) );
-        System.out.println(Long.toBinaryString(FNV_64_INIT & FNV_64_PRIME));
+//        System.out.println(Long.toBinaryString(FNV_64_INIT & FNV_64_PRIME));
 //        System.out.println(ag("a"));
 //        System.out.println(ag("aa"));
 //        System.out.println(ag("aaa"));
 //        System.out.println(ag("aaaa"));
+//        String phonenum = "0123456789";
+//        char[] chars = phonenum.replaceAll("-", "").replaceAll("/+", "").toCharArray();
+//        if (chars == null || chars.length == 0) {
+//            System.out.printf("ERR1");
+//        }
+//        for (char num : chars) {
+//            if (num > '9' || num < '0') {
+//                System.out.printf("ERR2");
+//            }
+//        }
+//        System.out.printf("over:" + phonenum);
+//
+//
+//        NumberUtils.toLong(StringUtils.substringBefore(baseRequest.getChannel(), ","))
+
+        System.out.println((3 & 2) + "");
     }
 }
