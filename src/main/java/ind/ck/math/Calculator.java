@@ -1,5 +1,7 @@
 package ind.ck.math;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @Author caikun
  * @Description 如果比运算符栈顶元素的优先级高，就将当前运算符压入栈；如果比运算符栈顶元素的优先级低或者相同，从运算符栈中取栈顶运算符，
@@ -9,4 +11,12 @@ package ind.ck.math;
  * @Date 下午4:04 20-3-31
  **/
 public class Calculator {
+
+
+    public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock(false);
+        lock.lock();
+
+        lock.unlock();
+    }
 }

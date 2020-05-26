@@ -1,5 +1,7 @@
 package ind.ck.dp;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @author CaiKun 2020-01-19 16:59:05
  * @Description: https://mp.weixin.qq.com/s/mJ_jZZoak7uhItNgnfmZvQ
@@ -141,22 +143,29 @@ public class Recursion {
         return dp[m - 1][n - 1];
     }
 
-
-
+    public static final int findLastConsecutiveOnes(int num) {
+        int rightMoveBit = num & 1;
+        if (rightMoveBit != 1) {
+            return 0;
+        }
+        return 1 + findLastConsecutiveOnes(num >> 1);
+    }
 
 
     public static void main(String[] args) {
 //        System.out.println(jumpMethod(10));
-        Node n1 = new Node(1);
-        Node n2 = new Node(2);
-        Node n3 = new Node(3);
-        n1.next = n2;
-        n2.next = n3;
-        Node node = reverseList(n1);
+//        Node n1 = new Node(1);
+//        Node n2 = new Node(2);
+//        Node n3 = new Node(3);
+//        n1.next = n2;
+//        n2.next = n3;
+//        Node node = reverseList(n1);
+//
+//        System.out.println(node.date);
+//        System.out.println(node.next.date);
+//        System.out.println(node.next.next.date);
 
-        System.out.println(node.date);
-        System.out.println(node.next.date);
-        System.out.println(node.next.next.date);
+        System.out.println(findLastConsecutiveOnes(479));;
 
     }
 
