@@ -103,16 +103,16 @@ AQS结构上是一个使用链表实现的队列。
 
 1.addWaiter： 每个需要竞争锁的线程都会被封装为 Node，通过 CAS 挂到队列的尾节点，
 2.acquireQueued： 判断当前节点的前一个节点的waitStatus状态，是否是'SIGNAL'状态，
-如果上个节点线程是park状态（实际为判断上个节点的waitStatus状态为'SIGNAL'状态），则当前线程也 park 等待（使用LockSupport.park），
-如果上个节点状态正常但并非'SIGNAL'，则同时改变上个节点的ws为'SIGNAL'，否则层层向前删除节点。
+如果上个节点线程是park状态（实际为判断上个节点的waitStatus状态为'SIGNAL'状态），则当前线程也 park 等待（使用LockSupport.park）.  
+3.如果上个节点状态正常但并非'SIGNAL'，则同时改变上个节点的ws为'SIGNAL'，否则层层向前删除节点。
 
 
 
 我们即便不再看其他代码，你也能想出一个锁的实现思路了。
 
-##三、可重入锁加锁的简单总结
+#### 总结
 
-简单说：AbstractQueuedSynchronizer 中的成员变量 state（int）标识锁状态，
+简单说：使用 AbstractQueuedSynchronizer 中的成员变量 state（int）标识锁状态，
 同时使用一个 先进先出的队列保存等待线程。（CLH锁的变体）  
 
-下一章我们讲解解锁和唤醒
+#### 下一章我们讲解解锁和唤醒
