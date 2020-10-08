@@ -14,7 +14,7 @@ public class MyThread extends Thread {
     }
 
     public void run() {
-
+        Thread.interrupted();
         try {
             myLock.lock();
             System.out.println("BIZ===== " + Thread.currentThread().getName());

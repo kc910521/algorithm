@@ -1,5 +1,7 @@
 package ind.ck;
 
+import ind.ck.construct.EnumTest;
+
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -72,7 +74,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println(getThisWeekDay2());
+        EnumTest instance = EnumTest.getInstance();
+//        System.out.println(getThisWeekDay2());
 //        ReentrantLock reentrantLock = new ReentrantLock();
 //
 //        reentrantLock.lock();
