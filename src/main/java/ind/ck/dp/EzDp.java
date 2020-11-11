@@ -153,6 +153,41 @@ public class EzDp {
     }
 
 
+    /**
+     * 您的目标是凑出某个金额w，需要用到尽量少的钞票。
+     * 奇葩国家的钞票面额分别是1、5、11，
+     * @param total
+     * @return
+     */
+    public int minCashNum(int w) {
+        if (w <= 1) {
+            return 1;
+        }
+        if (w == 5) {
+            return 1;
+        }
+        if (w == 11) {
+            return 1;
+        }
+        int a1 = minCashNum(w - 1);
+        int a2= minCashNum(w - 5);
+        int a3 = minCashNum(w - 11);
+        if (a1 > a2) {
+            if (a2 > a3) {
+                return minCashNum(w - 11);
+            } else {
+                return minCashNum(w - 5);
+            }
+        } else {
+            if (a1 < a3) {
+
+            } else {
+
+            }
+        }
+        return -1;
+    }
+
 
     public static void main(String[] args) {
 //        System.out.println(cutting(10));
