@@ -156,11 +156,18 @@ public class EzDp {
     /**
      * 您的目标是凑出某个金额w，需要用到尽量少的钞票。
      * 奇葩国家的钞票面额分别是1、5、11，
+     * 非dp
      * @param total
      * @return
      */
-    public int minCashNum(int w) {
-        if (w <= 1) {
+    public static int minCashNum(int w) {
+        if (w < 0) {
+            return 999;
+        }
+        if (w == 0) {
+            return 0;
+        }
+        if (w == 1) {
             return 1;
         }
         if (w == 5) {
@@ -172,20 +179,48 @@ public class EzDp {
         int a1 = minCashNum(w - 1);
         int a2= minCashNum(w - 5);
         int a3 = minCashNum(w - 11);
-        if (a1 > a2) {
-            if (a2 > a3) {
-                return minCashNum(w - 11);
-            } else {
-                return minCashNum(w - 5);
-            }
-        } else {
-            if (a1 < a3) {
-
-            } else {
-
-            }
+        if ((a1 * a2 * a3) == 0) {
+            return 0;
         }
-        return -1;
+        int minVal = Math.min(a1, Math.min(a2, a3));
+        return minVal + 1;
+    }
+
+    /**
+     * c[i]=arg min(c[i-value[j] + 1 ])
+     * 凑100为例，1,5,11三个面额
+     * 我要分别考虑99,95，89凑到100需要的张数（1），也即100分别减三个面额的值
+     * 取一个最小的张数值+1
+     *
+     *
+     * @param w
+     * @return
+     */
+    public static int minCashNumDp(int w) {
+        int c[] = new int[w + 1];
+        int value[] = {1, 5, 11};
+        c[0] = 0;
+        for (int i = 1; i <= w; i++) {
+
+            int nowVal = 999;
+            for (int j = 0; j < value.length; j ++) {
+                if (i == value[j]) {
+                    nowVal = 1;
+                    break;
+                } else {
+                    int nt = i - value[j];
+                    if (nt <= 0) {
+//                        nowVal = 999;
+                    } else if (nt == 0) {
+                        nowVal = 1;
+                    } else {
+                        nowVal = Math.min(nowVal, c[nt]) + 1;
+                    }
+                }
+            }
+            c[i] = nowVal;
+        }
+        return c[w];
     }
 
 
@@ -196,7 +231,9 @@ public class EzDp {
 //        System.out.println(dpJumpMethod(10));
 
         // 1;1;1  2;1 1;2
-        System.out.println(jumpMethod(3));
+//        System.out.println(jumpMethod(3));
+
+        System.out.println(minCashNumDp(100));
     }
 
 
