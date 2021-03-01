@@ -349,4 +349,21 @@ public class EzLeetCode {
         }
         return -1;
     }
+
+
+    private int[] arrs = {7,6,4,3,1};
+
+    public void rotate(int[] nums, int k) {
+        int realK = k % nums.length;
+        for (int idx = 0; idx < realK; idx ++) {
+            int tim = nums[0];
+            for (int idx2 = 1; idx2 < nums.length; idx2 ++) {
+                int tim2 = nums[idx2];
+                nums[idx2] = tim;
+                tim = tim2;
+            }
+            nums[0] = tim;
+        }
+    }
+
 }
