@@ -31,17 +31,27 @@ public class NIOServer {
         serverSocketChannel.bind(new InetSocketAddress(8080));
         serverSocketChannel.configureBlocking(false);
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        System.out.println("------------");
         // 1
         while (true) {
 //            read(socketChannels);
-            Iterator<SelectionKey> iterator  = selector.keys().iterator();
+            int select = selector.select();
+            System.out.println("select:" + select);
+            Set<SelectionKey> selectionKeys  = selector.selectedKeys();
+            Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {
                 SelectionKey sc = iterator.next();
+                // 获取epoll rdlist复制到用户态，遍历，同时删除当前rdlist事件
+                iterator.remove();
                 if (sc.isAcceptable()) {
                     // 妥妥拿到服务端自己
                     ServerSocketChannel ssc = (ServerSocketChannel) sc.channel();
                     // 还是得accept
+                    System.out.println("ssc+" +ssc);
                     SocketChannel client = ssc.accept();
+//                    if (client == null) {
+//                        continue;
+//                    }
                     client.configureBlocking(false);
                     System.out.println("accept new client :" + client.getRemoteAddress());
                     client.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(256));
@@ -51,8 +61,7 @@ public class NIOServer {
                     receivebuffer.clear();
                     int ct = client.read(receivebuffer);
                     if (ct > 0 ) {
-                        receivebuffer.flip();
-                        System.out.println(new String(receivebuffer.array()));
+                        System.out.println("recv:" + new String(receivebuffer.array()));
                     }
                     // 连接部分
                     //            SocketChannel accept = serverSocketChannel.accept();
