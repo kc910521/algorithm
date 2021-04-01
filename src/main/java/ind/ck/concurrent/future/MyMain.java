@@ -10,7 +10,7 @@ public class MyMain {
         TaskService<String, String> taskService = new TaskServiceImpl<>();
         final AtomicInteger a = new AtomicInteger(0);
 
-        taskService.submit(new Task<String, String>() {
+        Future<?> a1 = taskService.submit(new Task<String, String>() {
             @Override
             public String doTask(String param) {
                 try {
@@ -21,9 +21,12 @@ public class MyMain {
                 return param + "_" + a.addAndGet(1);
             }
         }, "a");
-
-        System.out.println(a.get());
+        System.out.println(a1.get());
+//        System.out.println(a.get());
         CompletableFuture.allOf().join();
+        ThreadLocal<String> threadLocal = new ThreadLocal<>();
+        threadLocal.set("sas");
+        String s = threadLocal.get();
 
 
 

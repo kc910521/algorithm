@@ -26,6 +26,7 @@ public class FutureTask<T> implements Future<T> {
     public void finish(T result) {
         synchronized (LOCK) {
             if (isDone) {
+                // 防止调用多次
                 return;
             }
             this.result = result;
