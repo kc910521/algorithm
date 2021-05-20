@@ -224,6 +224,36 @@ public class EzDp {
     }
 
 
+    /**
+     * 最大子序和
+     * https://leetcode-cn.com/problems/maximum-subarray/solution/
+     * @param nums
+     * @return
+     */
+    public static int maxSubArray(int[] nums) {
+        // nil judge
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        // 初始化 最大子序合为 res为第一个元素，
+        int res = nums[0];
+        // 初始化，阶段最大tmpRes为0;
+        int tmpRes = 0;
+        // 我们想下这个题目的细节，实际上找的是：
+        // 第一个正数、从前向后累加、后面出现的负数不会把前面正值给清零或者变负的    到符合这个条件最后一个正数的位置
+        for (int i = 0; i < nums.length; i ++) {
+            if (tmpRes > 0) {
+                // 当前tmpRes 还大于0,说明还能救
+                tmpRes += nums[i];
+            } else {
+                // 已经小于=0了，tmpRes 看起来可以放弃了，需要从头计数了，重新赋值吧
+                tmpRes = nums[i];
+            }
+            res = Math.max(res, tmpRes);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(cutting(10));
 //        System.out.println(isAliasWon(10, true));
@@ -233,7 +263,8 @@ public class EzDp {
         // 1;1;1  2;1 1;2
 //        System.out.println(jumpMethod(3));
 
-        System.out.println(minCashNumDp(100));
+//        System.out.println(minCashNumDp(100));
+        System.out.println(maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4}) );
     }
 
 

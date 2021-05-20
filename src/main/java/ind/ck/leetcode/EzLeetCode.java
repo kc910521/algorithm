@@ -1,5 +1,6 @@
 package ind.ck.leetcode;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -8,6 +9,54 @@ import java.util.*;
  * Created by KCSTATION on 2020/1/26.
  */
 public class EzLeetCode {
+
+    /**
+     * 基本有序数组的排序
+     * @param arr case:2, 1, 5, 4, 3, 8, 7
+     * @param k case:2
+     */
+    public static void SortWithin(int[] arr, int k) {
+        // nil judge
+        if (arr == null || arr.length == 0) {
+            return;
+        }
+        // for i in arr
+        Arrays.sort(arr, 0, k + 1);
+        System.out.println("turn:0;" + Arrays.toString(arr));
+        for (int i = k + 1; i < arr.length; i ++) {
+            int pos = binarySearch(arr, i - k, i, arr[i]);
+            if (pos != i) {
+                int tmp = arr[i];
+                // 后移动
+                System.arraycopy(arr, pos, arr, pos + 1, i - pos);
+                arr[pos] = tmp;
+            }
+            System.out.println("idx:" + i + ";" + Arrays.toString(arr));
+        }
+    }
+    // get last postion
+    public static int binarySearch(int[] a, int minIdx, int maxIdx, int tarVal) {
+        int lowIdx = minIdx;
+        int highIdx = maxIdx - 1;
+        int mid = -1;
+        while (lowIdx <= highIdx) {
+
+            mid = lowIdx + ((highIdx - lowIdx) >> 1);
+            if (a[mid] < tarVal) {
+                int oldLow = lowIdx;
+                lowIdx = mid + 1;
+
+            } else if (a[mid] > tarVal) {
+                highIdx = mid - 1;
+            } else {
+                // equals
+//                return mid;
+                break;
+            }
+        }
+        return lowIdx;
+    }
+
 
     public static void main(String[] args) {
 //        System.out.println(firstUniqChar("loveleetcode"));
@@ -19,9 +68,59 @@ public class EzLeetCode {
 //        System.out.println(myAtoi("20000000000000000000"));
 //        System.out.println(KMP("hello", "lo"));
 //        System.out.println(countAndSay(5));
-        String[] a = new String[]{"flower", "flow", "flight"};
-        System.out.println(longestCommonPrefix(a));
+//        String[] a = new String[]{"flower", "flow", "flight"};
+//        System.out.println(longestCommonPrefix(a));
+
+        int[] a = new int[]{2,1,5,4,3,8,7};
+//        Arrays.sort(a);
+        System.out.println("st:"+Arrays.toString(a));
+//        System.out.println(binarySearch(a, 0, 0, 0));
+//        System.out.println(binarySearch(a, 0, 0, 2));
+//        System.out.println(3 + ":" + binarySearch(a, 0, 0, 3));
+//        System.out.println(6 + ":" +binarySearch(a, 0, 0, 6));
+//        System.out.println(8 + ":" +binarySearch(a, 0, 0, 8));
+//        System.out.println(12 + ":" +binarySearch(a, 0, 0, 12));
+
+
+//        Arrays.sort(a, 0, 2);
+        System.out.println(Arrays.toString(a));
+        SortWithin(a, 2);
+        System.out.println(Arrays.toString(a));
     }
+
+
+
+
+
+//    public List<List<Integer>> levelOrder(TreeNode root) {
+//        List<List<Integer>> mother = new ArrayList<>();
+//        Queue<TreeNode> q = new LinkedList<>();
+//        if (root == null) {
+//            return mother;
+//        }
+//        q.offer(root);
+//        while (!q.isEmpty()) {
+//            // 记录级别size
+//            int qsize = q.size();
+//            // 遍历本级别
+//            List<Integer> ilist = new ArrayList<>();
+//            while (qsize --  > 0) {
+//                TreeNode tpNode = q.poll();
+//                ilist.add(tpNode.val);
+//                // 后一个级别入q
+//                if (tpNode.left != null) {
+//                    q.add(tpNode.left);
+//                }
+//                if (tpNode.right != null) {
+//                    q.add(tpNode.right);
+//                }
+//            }
+//            // 一个级别完成，2list
+//            mother.add(ilist);
+//        }
+//
+//        return mother;
+//    }
 
     public static String longestCommonPrefix(final String[] strs) {
         StringBuilder stringBuilder = new StringBuilder();
