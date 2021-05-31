@@ -8,6 +8,66 @@ package ind.ck.construct;
 public class LinkedList {
 
 
+    /**
+     * 判断是否有环
+     *
+     * @param head
+     * @return
+     */
+    public boolean hasCircle(ListNode head) {
+
+        return false;
+    }
+
+    /**
+     * 寻找环的入口
+     * @param head
+     * @return
+     */
+    public ListNode searchEntranceNode(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        ListNode pt = null;
+        while (slow != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (fast == null) {
+                return null;
+            }
+            if (slow == fast) {
+                // circle found
+                pt = head;
+            }
+        }
+        // if circled
+        if (pt != null) {
+            while (pt != fast) {
+                pt = pt.next;
+                fast = fast.next;
+            }
+        }
+        return pt == null ? null : pt;
+    }
+
+    /**
+     * 带环链表的环长度
+     * @param head
+     * @return
+     */
+    public int countCircleSize(ListNode head) {
+        return -1;
+    }
+
+
+
+
+
+
+
+
     private ListNode head = new ListNode();
 
     public void add(int value) {
