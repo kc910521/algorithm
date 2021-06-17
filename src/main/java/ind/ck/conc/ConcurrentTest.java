@@ -13,20 +13,21 @@ public class ConcurrentTest {
 
     private static MyLock myLock = new MyLock();
 
-    private static ReentrantLock reentrantLock = new ReentrantLock();
-
     public static void main(String[] args) throws InterruptedException {
         List<MyThread> mts = new LinkedList<MyThread>();
-        reentrantLock.lock();
-        mts.add(new MyThread(myLock));
-        mts.add(new MyThread(myLock));
-        mts.add(new MyThread(myLock));
-        mts.add(new MyThread(myLock));
+        mts.add(new MyThread("a1", myLock));
+        mts.add(new MyThread("a2", myLock));
+        mts.add(new MyThread("a3", myLock));
+        mts.add(new MyThread("a4", myLock));
+        mts.add(new MyThread("a5", myLock));
+        mts.add(new MyThread("a6", myLock));
+
         for (MyThread mm : mts) {
             mm.start();
         }
+        Thread.sleep(10000L);
+        System.out.println("========================" + MyThread.code);
         //wrong
-        reentrantLock.unlock();
     }
 
 }

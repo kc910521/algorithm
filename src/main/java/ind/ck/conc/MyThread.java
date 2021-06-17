@@ -1,29 +1,35 @@
 package ind.ck.conc;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by KCSTATION on 2020/3/22.
  */
 public class MyThread extends Thread {
 
-    private MyLock myLock = null;
+    public static int code = 0;
 
-    public MyThread(MyLock myLock) {
-        this.myLock = myLock;
+    private MyLock lock = null;
+
+    public MyThread(String name, MyLock lock) {
+        super(name);
+        this.lock = lock;
     }
 
+    @Override
     public void run() {
-        Thread.interrupted();
         try {
-            myLock.lock();
-            System.out.println("BIZ===== " + Thread.currentThread().getName());
-            TimeUnit.MILLISECONDS.sleep(3000L);
-            System.out.println("BIZ out ====" + Thread.currentThread().getName());
-        } catch (InterruptedException e) {
+            lock.lock();
+            while (code < 20) {
+                Thread.sleep(300L);
+                code ++;
+
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            this.myLock.unlock();
+            lock.unlock();
         }
     }
 }

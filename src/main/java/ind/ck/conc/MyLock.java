@@ -9,6 +9,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
 /**
@@ -21,44 +22,49 @@ public class MyLock {
      **/
     private volatile AtomicInteger state = new AtomicInteger(0);
 
-    private volatile Queue<Thread> q = new ConcurrentLinkedQueue<Thread>();
+    private volatile Queue<Thread> waitQueue = new ConcurrentLinkedQueue<Thread>();
 
-    public Thread lock() throws InterruptedException {
-        System.out.println("lock1" + ":" + Thread.currentThread().getName());
-        if (!state.compareAndSet(0, 1)) {
-            // failed in lock
-            TimeUnit.MILLISECONDS.sleep(10L);
-            System.out.println("lock2" + ":" + Thread.currentThread().getName());
-            q.offer(Thread.currentThread());
-            // wait
-            LockSupport.park();
-            while (!state.compareAndSet(0, 1)) {
+    private volatile AtomicReference<Thread> currentThread = new AtomicReference<>();
+
+    private void toWait() {
+        waitQueue.offer(Thread.currentThread());
+        // wait
+        LockSupport.park();
+    }
+
+    public void lock() throws InterruptedException {
+//        System.out.println("lock1" + ":" + Thread.currentThread().getName());
+        while (true) {
+            if (state.compareAndSet(0, 1)) {
+                currentThread.set(Thread.currentThread());
+                // lock success
+                return;
+            } else {
+                // 未能获取锁
+                toWait();
+                System.out.println(Thread.currentThread().getName() + " wake ");
                 // 重新争抢锁
-                continue;
             }
-            System.out.println("lock3" + ":" + Thread.currentThread().getName());
-            return q.poll();
         }
-        System.out.println("lock4" + ":" + Thread.currentThread().getName());
-        return Thread.currentThread();
     }
 
     public void unlock() {
-        System.out.println("unlock1" + ":" + Thread.currentThread().getName());
+//        System.out.println("unlock1" + ":" + Thread.currentThread().getName());
         if (!state.compareAndSet(1, 0)) {
-            System.err.println("unlock unpark fail" + q.size());
-//            throw new RuntimeException("unlock exception"  + ":" + Thread.currentThread().getName());
+            throw new RuntimeException("unlock exception"  + ":" + Thread.currentThread().getName());
         } else {
-            //不出队
-            Thread element = q.peek();
+            // unlock success
+            Thread element = waitQueue.poll();
             System.out.println("unlockDD" + element);
             if (element != null) {
+                currentThread.set(null);
                 LockSupport.unpark(element);
             }
         }
+
     }
 
     public Queue<Thread> getQ() {
-        return q;
+        return waitQueue;
     }
 }

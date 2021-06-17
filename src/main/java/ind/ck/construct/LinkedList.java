@@ -61,9 +61,18 @@ public class LinkedList {
         return -1;
     }
 
+    /**
+     * 链表中倒数第 k 个节点
+     * @param head
+     * @param k
+     * @return
+     */
+    public static ListNode getKthFromEnd(ListNode head, int k) {
+        if (head.next == null) {
 
-
-
+        }
+        return getKthFromEnd(head.next, k);
+    }
 
 
 
@@ -156,20 +165,24 @@ public class LinkedList {
     }
 
     public static void main(String[] args) {
-        LinkedList ll = new LinkedList();
-        ll.add(1);
-        ll.add(2);
-        ll.add(3);
-        ll.add(4);
-        ll.add(5);
-        ll.add(6);
-        ll.add(7);
-        ll.add(8);
-        ll.add(9);
-        ll.add(10);
-        ll.show();
-        ll.reverseList(ll.getHead().next);
-        ll.show();
+//        LinkedList ll = new LinkedList();
+//        ll.add(1);
+//        ll.add(2);
+//        ll.add(3);
+//        ll.add(4);
+//        ll.add(5);
+//        ll.add(6);
+//        ll.add(7);
+//        ll.add(8);
+//        ll.add(9);
+//        ll.add(10);
+//        ll.show();
+////        ll.reverseList(ll.getHead().next);
+////        ll.show();
+//        ListNode kthFromEnd = getKthFromEnd(ll.getHead(), 3);
+//        System.out.println(kthFromEnd);
+
+        System.out.println(null == null);
 
     }
 
