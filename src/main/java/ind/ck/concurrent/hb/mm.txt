@@ -1,0 +1,80 @@
+Classfile /home/caikun/IdeaProjects/algorithm/src/main/java/ind/ck/concurrent/hb/HappensBTest.class
+  Last modified 2021-6-23; size 459 bytes
+  MD5 checksum b2df201383ad593dacc53d60ccfe3b6d
+  Compiled from "HappensBTest.java"
+public class ind.ck.concurrent.hb.HappensBTest
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #5.#20         // java/lang/Object."<init>":()V
+   #2 = Fieldref           #4.#21         // ind/ck/concurrent/hb/HappensBTest.a:I
+   #3 = Fieldref           #4.#22         // ind/ck/concurrent/hb/HappensBTest.b:I
+   #4 = Class              #23            // ind/ck/concurrent/hb/HappensBTest
+   #5 = Class              #24            // java/lang/Object
+   #6 = Utf8               a
+   #7 = Utf8               I
+   #8 = Utf8               b
+   #9 = Utf8               <init>
+  #10 = Utf8               ()V
+  #11 = Utf8               Code
+  #12 = Utf8               LineNumberTable
+  #13 = Utf8               main
+  #14 = Utf8               ([Ljava/lang/String;)V
+  #15 = Utf8               Exceptions
+  #16 = Class              #25            // java/lang/InterruptedException
+  #17 = Utf8               <clinit>
+  #18 = Utf8               SourceFile
+  #19 = Utf8               HappensBTest.java
+  #20 = NameAndType        #9:#10         // "<init>":()V
+  #21 = NameAndType        #6:#7          // a:I
+  #22 = NameAndType        #8:#7          // b:I
+  #23 = Utf8               ind/ck/concurrent/hb/HappensBTest
+  #24 = Utf8               java/lang/Object
+  #25 = Utf8               java/lang/InterruptedException
+{
+  private static volatile int a;
+    descriptor: I
+    flags: ACC_PRIVATE, ACC_STATIC, ACC_VOLATILE
+
+  private static int b;
+    descriptor: I
+    flags: ACC_PRIVATE, ACC_STATIC
+
+  public ind.ck.concurrent.hb.HappensBTest();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 8: 0
+
+  public static void main(java.lang.String[]) throws java.lang.InterruptedException;
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=0, locals=1, args_size=1
+         0: return
+      LineNumberTable:
+        line 16: 0
+    Exceptions:
+      throws java.lang.InterruptedException
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: iconst_m1
+         1: putstatic     #2                  // Field a:I
+         4: iconst_m1
+         5: putstatic     #3                  // Field b:I
+         8: return
+      LineNumberTable:
+        line 11: 0
+        line 12: 4
+}
+SourceFile: "HappensBTest.java"

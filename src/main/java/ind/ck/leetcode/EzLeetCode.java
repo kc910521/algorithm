@@ -2,6 +2,9 @@ package ind.ck.leetcode;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * leetcode 草稿
@@ -9,6 +12,59 @@ import java.util.*;
  * Created by KCSTATION on 2020/1/26.
  */
 public class EzLeetCode {
+
+
+
+    public static void main(String[] args) {
+//        System.out.println(firstUniqChar("loveleetcode"));
+//        System.out.println(0 - 'a');
+//        char c = "我abcd发".charAt(0);
+//        char c1 = "我abcd发".charAt(1);
+//        System.out.println(isAnagram("我at", "t我a"));
+//        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+//        System.out.println(myAtoi("20000000000000000000"));
+//        System.out.println(KMP("hello", "lo"));
+//        System.out.println(countAndSay(5));
+//        String[] a = new String[]{"flower", "flow", "flight"};
+//        System.out.println(longestCommonPrefix(a));
+
+        int[] a = new int[]{2,1,5,4,3,8,7};
+//        Arrays.sort(a);
+//        System.out.println("st:"+Arrays.toString(a));
+//        System.out.println(binarySearch(a, 0, 0, 0));
+//        System.out.println(binarySearch(a, 0, 0, 2));
+//        System.out.println(3 + ":" + binarySearch(a, 0, 0, 3));
+//        System.out.println(6 + ":" +binarySearch(a, 0, 0, 6));
+//        System.out.println(8 + ":" +binarySearch(a, 0, 0, 8));
+//        System.out.println(12 + ":" +binarySearch(a, 0, 0, 12));
+
+
+//        Arrays.sort(a, 0, 2);
+//        System.out.println(Arrays.toString(a));
+//        SortWithin(a, 2);
+//        System.out.println(Arrays.toString(a));
+
+        // twosun
+        System.out.println(Arrays.toString(twoSum(a, 11)));
+
+    }
+
+    public static int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> resMap = new HashMap<>();
+        int[] res = new int[2];
+        Stream.iterate(0, integer -> integer + 1).limit(nums.length).forEach(idx -> {
+            Integer idx2 = resMap.get(nums[idx]);
+            if (idx2 == null) {
+                resMap.put(target - nums[idx], idx);
+            } else {
+                res[0] = idx;
+                res[1] = idx2;
+            }
+        });
+//        if (res[0] == res[1] == 0)
+        return res;
+    }
+
 
     /**
      * 基本有序数组的排序
@@ -57,36 +113,6 @@ public class EzLeetCode {
         return lowIdx;
     }
 
-
-    public static void main(String[] args) {
-//        System.out.println(firstUniqChar("loveleetcode"));
-//        System.out.println(0 - 'a');
-//        char c = "我abcd发".charAt(0);
-//        char c1 = "我abcd发".charAt(1);
-//        System.out.println(isAnagram("我at", "t我a"));
-//        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
-//        System.out.println(myAtoi("20000000000000000000"));
-//        System.out.println(KMP("hello", "lo"));
-//        System.out.println(countAndSay(5));
-//        String[] a = new String[]{"flower", "flow", "flight"};
-//        System.out.println(longestCommonPrefix(a));
-
-        int[] a = new int[]{2,1,5,4,3,8,7};
-//        Arrays.sort(a);
-        System.out.println("st:"+Arrays.toString(a));
-//        System.out.println(binarySearch(a, 0, 0, 0));
-//        System.out.println(binarySearch(a, 0, 0, 2));
-//        System.out.println(3 + ":" + binarySearch(a, 0, 0, 3));
-//        System.out.println(6 + ":" +binarySearch(a, 0, 0, 6));
-//        System.out.println(8 + ":" +binarySearch(a, 0, 0, 8));
-//        System.out.println(12 + ":" +binarySearch(a, 0, 0, 12));
-
-
-//        Arrays.sort(a, 0, 2);
-        System.out.println(Arrays.toString(a));
-        SortWithin(a, 2);
-        System.out.println(Arrays.toString(a));
-    }
 
 
 
