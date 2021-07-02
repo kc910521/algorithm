@@ -3,8 +3,10 @@ package ind.ck.lambda;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.concurrent.ForkJoinPool;
 import java.util.function.*;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
@@ -258,6 +260,16 @@ public class LambdaTest {
                 .ifPresent(x -> {
                     System.out.println("final:" + x);
                 });
+
+    }
+
+    /**
+     * fork()：开启一个新线程（或是重用线程池内的空闲线程），将任务交给该线程处理。
+     * join()：等待该任务的处理线程处理完毕，获得返回值。
+     */
+    public static void acc() {
+//        LongStream.rangeClosed(0, 10000000L).parallel().reduce(0, Long::sum);
+        ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 
     }
 
