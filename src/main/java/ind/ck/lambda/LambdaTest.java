@@ -88,13 +88,13 @@ public class LambdaTest {
 
     public static void predicateTest() {
         Predicate<UserObj> predicate = userObj -> userObj.age <= 18 && Objects.equals(userObj.name, "kangxi");
-
         System.out.println(predicate.test(user1));
         System.out.println(predicate.test(user2));
     }
 
     public static void SupplierTest() {
-        Supplier<UserObj> supplier = () -> new UserObj(UUID.randomUUID().toString(), Integer.valueOf((Math.random() * 10) + ""));
+        Supplier<UserObj> supplier = () -> new UserObj("qianlong", 60);
+        Consumer<UserObj> consumer = System.out::println;
 
     }
 
@@ -128,19 +128,17 @@ public class LambdaTest {
                 new UserObj("b", 25),
                 new UserObj("c", 17),
                 new UserObj("d", 13)).collect(Collectors.toList());
-        List<UserObj> heis = Stream.of(
+        List<UserObj> heis1 = Stream.of(
                 new UserObj("a", 13),
                 new UserObj("m1", 30)).collect(Collectors.toList());
         List<UserObj> heis2 = Stream.of(
                 new UserObj("a", 93),
                 new UserObj("b", 55)).collect(Collectors.toList());
 //
-        Stream<UserObj> userObjStream = uList.stream().filter(userObj -> userObj.age < 24);
-        Stream<Map<String, Object>> mapStream = userObjStream.map(UserObj::toMap);
+        Stream<Map<String, Object>> mapStream = uList.stream().filter(userObj -> userObj.age < 24).map(UserObj::toMap);
 
 //      flatmap这样就给两个流合并了
-        Stream<List<UserObj>> uList1 = Stream.of(uList, heis, heis2);
-        Stream<UserObj> userObjStream1 = uList1.flatMap(Collection::stream);
+        Stream<UserObj> userObjStream1 = Stream.of(uList, heis1, heis2).flatMap(Collection::stream);
         // 求个最大值
 //        UserObj userObj = userObjStream1.max(Comparator.comparing(st -> st.age)).get();
 //        System.out.println("count:" + userObj);
@@ -149,6 +147,7 @@ public class LambdaTest {
 //            x.age += y.age;
 //            return x;
 //        });
+//        System.out.println(reduce.get());
 //        System.out.println(reduce.get());
 //        求平均年龄
 //        userObjStream1.collect()
@@ -162,12 +161,15 @@ public class LambdaTest {
 //        Map<String, List<UserObj>> collect = userObjStream1.collect(Collectors.groupingBy(UserObj::getName));
 //        System.out.println(collect);
 
-        // grouping 分组聚合
+        // grouping 分组聚合1
 //        Map<String, Integer> collect = userObjStream1.collect(Collectors.groupingBy(UserObj::getName, Collectors.summingInt(UserObj::getAge)));
 //        System.out.println(collect);
+        // grouping 分组聚合2
+        Integer collect = userObjStream1.collect(Collectors.collectingAndThen(Collectors.groupingBy(UserObj::getName), Map::size));
+        System.out.println(collect);
 //        拼接
 //        Collectors.collectingAndThen(Collectors.toList(), Optional::ofNullable)
-        String collect = userObjStream1.map(UserObj::getName).collect(Collectors.joining(",", " ", " "));
+//        String collect = userObjStream1.map(UserObj::getName).collect(Collectors.joining(",", " ", " "));
         System.out.println(collect);
     }
 
@@ -185,16 +187,16 @@ public class LambdaTest {
 //            return u;
 //        });
         // 轻松转map
-//        Map<String, UserObj> collect = uList.stream()
-////                .collect(Collectors.groupingBy(UserObj::getName, Collectors.summingInt(UserObj::getAge)))
-//                .collect(Collectors.toMap(UserObj::getName, Function.identity()));
-//        System.out.println(collect);
+        Map<String, UserObj> collect = uList.stream()
+//                .collect(Collectors.groupingBy(UserObj::getName, Collectors.summingInt(UserObj::getAge)))
+                .collect(Collectors.toMap(UserObj::getName, Function.identity()));
+        System.out.println(collect);
 
 
-        Map<Boolean, List<UserObj>> collect = uList.stream().collect(
-                Collectors.partitioningBy(
-                        u -> u.getAge() > 18)
-        );
+//        Map<Boolean, List<UserObj>> collect = uList.stream().collect(
+//                Collectors.partitioningBy(
+//                        u -> u.getAge() > 18)
+//        );
         System.out.println(collect);
     }
 
@@ -236,7 +238,7 @@ public class LambdaTest {
         String[] intFrs = new String[] {"1","2","3","4","5","6","7","8","9","10"};
         // new
         Stream.of(intFrs)
-                .parallel()
+//                .parallel()
                 .mapToLong(Long::parseLong)
                 .mapToObj(fr -> {
                     AsOs key = new AsOs();
@@ -277,10 +279,10 @@ public class LambdaTest {
     public static void main(String[] args) {
 //        predicateTest();
 //        consumerTest();
-//        streamTest();
+        streamTest();
 //        streamTestAdv();
 //        streamTestHM();
-        streamTestPar2();
+//        streamTestPar2();
     }
 
 }
